@@ -3,20 +3,29 @@
 $isSubmit = !empty($_POST);
 $yubikey = isset($_POST['yubikey']) ? $_REQUEST['yubikey'] : '';
 
-$page = new Page('login.tpl');
+$factory = new PageFactory();
 
 if ($isSubmit) {
 
-	$api->checkYubikey($yubikey);
-	//$success = $api->checkLogin($login, $pass);
+	$result = $api->checkYubikey($yubikey);
 
-	if ($success) {
+	if ($result === true) {
 		//header('Location: /loggedin.php');
 		die();
 	} else {
-		$page->setVar('error', 'Login failed.');
+		$factory->setVar('messageType', $result['type']);
+		//$factory->setVar('messageTopic', 'There was an error...');
+		$factory->setVar('messageText', $result[$result['type']]);
+
+		$message = $factory->newPage('message.tpl');
+
+		$factory->setVar('message', $message);
+
+
 	}
 }
+
+$page = $factory->newPage('login.tpl');
 
 $page->display();
 

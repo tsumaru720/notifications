@@ -24,6 +24,7 @@
 							<p>We will send you a validation email with instructions once you have signed in successfully.</p>
 							<p>&nbsp;</p>
 
+							<?php if (isset($messageType)) { $message->display(); } ?>
 							<div class="centered">
 								<div id="username-control" class="control-group">
 									<input class="input-xlarge focused" autofocus="autofocus" name="username" type="text" placeholder="Username...">
@@ -47,6 +48,8 @@
 	</div>
 
 <script src="res/js/validateCredentials.js"></script>
+<script src="res/bootstrap/js/jquery.js"></script>
+<script src="res/bootstrap/js/bootstrap.js"></script>
 
 </body>
 </html>

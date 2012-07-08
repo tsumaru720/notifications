@@ -23,6 +23,7 @@
 							<p>Please use your key below to log in to your account. If you do not have an account, use it anyway to begin the registration process.</p>
 							<p>&nbsp;</p>
 
+							<?php if (isset($messageType)) { $message->display(); } ?>
 							<div class="centered">
 								<div id="control" class="control-group">
 									<div class="input-prepend">
@@ -44,6 +45,8 @@
 	</div>
 
 <script src="res/js/validateYubikey.js"></script>
+<script src="res/bootstrap/js/jquery.js"></script>
+<script src="res/bootstrap/js/bootstrap.js"></script>
 
 </body>
 </html>

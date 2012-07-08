@@ -63,6 +63,7 @@ $requestDetails = parseRequestURI();
 
 require_once("config.php");
 require_once("util/page_class.php");
+require_once("util/page_factory_class.php");
 require_once("util/api_class.php");
 
 $api = new API($CONFIG['api']);

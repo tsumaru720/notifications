@@ -16,13 +16,18 @@ class API {
 			'token' => $token
 		);
 
-		$this->sendRequest($submitURL, $args);
-
-		return true;
+		return $this->sendRequest($submitURL, $args);
 	}
 	
 	public function checkCredentials($username, $password) {
-		return true;
+		$submitURL = $this->url.'checkAuthentication';
+		$args = array(
+			'type' => 'credentials',
+			'username' => $username, 
+			'password' => sha1($username.$password)
+		);
+
+		return $this->sendRequest($submitURL, $args);
 	}
 
 	private function sendRequest($url, $args) {
@@ -34,16 +39,24 @@ class API {
 			$postString .= $key.'='.urlencode($value).'&';
 		}
 		$postString = substr($postString, 0, -1);
-		
+
+		curl_setopt($curlRes, CURLOPT_HEADER, false);		
 		curl_setopt($curlRes, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curlRes, CURLOPT_POSTFIELDS, $postString);
 
 		$result = curl_exec($curlRes);
+
 		curl_close ($curlRes);
-
-		//var_dump($result);
-
-		return true;
+		
+		$result = json_decode($result, true);
+		
+		if ($result['error']) {
+			return array('type' => 'error', 'error' => $result['error']);
+		} elseif ($result['info']) {
+			return array('type' => 'info', 'info' => $result['info']);
+		} else {
+			return true;
+		}
 	}
 }
 ?>

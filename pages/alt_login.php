@@ -4,21 +4,29 @@ $isSubmit = !empty($_POST);
 $username = isset($_POST['username']) ? $_REQUEST['username'] : '';
 $password = isset($_POST['password']) ? $_REQUEST['password'] : '';
 
-$page = new Page('alt_login.tpl');
+$factory = new PageFactory();
 
 if ($isSubmit) {
 
-	var_dump("Check Login stuff via API");
-	$success = true;
-	//$success = $api->checkLogin($login, $pass);
+	$result = $api->checkCredentials($username, $password);
 
-	if ($success) {
+	if ($result === true) {
 		//header('Location: /loggedin.php');
 		die();
 	} else {
-		$page->setVar('error', 'Login failed.');
+		$factory->setVar('messageType', $result['type']);
+		//$factory->setVar('messageTopic', 'There was an error...');
+		$factory->setVar('messageText', $result[$result['type']]);
+
+		$message = $factory->newPage('message.tpl');
+
+		$factory->setVar('message', $message);
+
+
 	}
 }
+
+$page = $factory->newPage('alt_login.tpl');
 
 $page->display();
 
