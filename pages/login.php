@@ -14,7 +14,7 @@ if ($isSubmit) {
 		die();
 	} else {
 		$factory->setVar('messageType', $result['type']);
-		//$factory->setVar('messageTopic', 'There was an error...');
+		$factory->setVar('messageTopic', (!empty($result['tagline']) ? $result['tagline'] : ''));
 		$factory->setVar('messageText', $result[$result['type']]);
 
 		$message = $factory->newPage('message.tpl');
@@ -26,6 +26,10 @@ if ($isSubmit) {
 }
 
 $page = $factory->newPage('login.tpl');
+
+if ($result['field'] == 'token') {
+	$page->setVar('tokenError', true);
+}
 
 $page->display();
 

@@ -3,9 +3,10 @@
 class API {
 
 	// Create the page.
-	public function __construct($url) { 
+	public function __construct($url, $debug = false) { 
 		if (substr($url, -1) != '/') { $url .= '/'; }
 		$this->url = $url;
+		$this->debug = $debug;
 	}
 
 	
@@ -24,7 +25,7 @@ class API {
 		$args = array(
 			'type' => 'credentials',
 			'username' => $username, 
-			'password' => sha1($username.$password)
+			'passwordHash' => sha1($username.$password)
 		);
 
 		return $this->sendRequest($submitURL, $args);
@@ -48,14 +49,26 @@ class API {
 
 		curl_close ($curlRes);
 		
-		$result = json_decode($result, true);
-		
-		if ($result['error']) {
-			return array('type' => 'error', 'error' => $result['error']);
-		} elseif ($result['info']) {
-			return array('type' => 'info', 'info' => $result['info']);
+		if ($this->debug) {
+			return array('type' => 'info',
+					'tagline' => 'API Debugging...',
+					'info' => '<pre>'.htmlspecialchars($result).'</pre>');
 		} else {
-			return true;
+			$result = json_decode($result, true);
+
+			if ($result['message']) {
+				$return['type'] = $result['message'];
+				foreach ($result as $key => $value) {
+					$return[$key] = $value;
+				}
+				return $return;
+			} elseif ($result == null) {
+				 return array('type' => 'error',
+					'tagline' => 'API Error',
+					'error' => 'API returned no usable output');
+			} else {
+				return true;
+			}
 		}
 	}
 }

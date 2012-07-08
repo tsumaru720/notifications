@@ -1,6 +1,6 @@
 <?php
 
-function apiInfo($message) {
+function apiOut($message) {
 	echo json_encode($message);
 	die();
 }

@@ -26,10 +26,10 @@
 
 							<?php if (isset($messageType)) { $message->display(); } ?>
 							<div class="centered">
-								<div id="username-control" class="control-group">
+								<div id="username-control" class="control-group<?php if ($usernameError) { echo ' error'; }?>">
 									<input class="input-xlarge focused" autofocus="autofocus" name="username" type="text" placeholder="Username...">
 								</div>
-								<div id="password-control" class="control-group">
+								<div id="password-control" class="control-group<?php if ($passwordError) { echo ' error'; }?>">
 									<input class="input-xlarge" autocomplete="off" name="password" type="password" placeholder="Password...">
 								</div>
 								<p>&nbsp;</p>
@@ -47,7 +47,7 @@
 		</div>
 	</div>
 
-<script src="res/js/validateCredentials.js"></script>
+<script src="res/js/validateCredential.js"></script>
 <script src="res/bootstrap/js/jquery.js"></script>
 <script src="res/bootstrap/js/bootstrap.js"></script>
 

@@ -66,7 +66,8 @@ require_once("util/page_class.php");
 require_once("util/page_factory_class.php");
 require_once("util/api_class.php");
 
-$api = new API($CONFIG['api']);
+//Set second param to TRUE if you want to capture raw output from API
+$api = new API($CONFIG['api'], false);
 
 if (file_exists($requestDetails['page'])) {
         include($requestDetails['page']);

@@ -25,9 +25,9 @@
 
 							<?php if (isset($messageType)) { $message->display(); } ?>
 							<div class="centered">
-								<div id="control" class="control-group">
+								<div id="control" class="control-group<?php if ($tokenError) { echo ' error'; }?>">
 									<div class="input-prepend">
-										<span class="add-on"><img src="res/images/yubico-icon-small.gif"></span><input class="span4" autocomplete="off" autofocus="autofocus" id="inputError" name="yubikey" type="password" placeholder="YubiKey...">
+										<span class="add-on"><img src="res/images/yubico-icon-small.gif"></span><input class="span4" autocomplete="off" autofocus="autofocus" name="yubikey" type="password" placeholder="YubiKey...">
 									</div>
 								</div>
 								<p>&nbsp;</p>
