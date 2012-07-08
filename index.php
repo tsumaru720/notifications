@@ -29,7 +29,6 @@ function parseRequestURI() {
 		if ($_SESSION['authenticated'] != true
 				&& $getParams[0] != 'login'
 				&& $getParams[0] != 'alt_login'
-				&& $getParams[0] != 'doAuthentication'
 				&& $getParams[0] != 'register') {
 			$getParams[0] = 'login';
 		}
@@ -61,7 +60,12 @@ function parseRequestURI() {
 
 $_SERVER['REQUEST_URI'] = fixRequestURI();
 $requestDetails = parseRequestURI();
+
+require_once("config.php");
 require_once("util/page_class.php");
+require_once("util/api_class.php");
+
+$api = new API($CONFIG['api']);
 
 if (file_exists($requestDetails['page'])) {
         include($requestDetails['page']);

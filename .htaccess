@@ -1,0 +1,4 @@
+RewriteEngine On                                                                                                                                                                                                                   
+RewriteCond %{REQUEST_FILENAME} !-f                                                                                                                                                                                                
+RewriteRule . /notifications/index.php [L]
+Options FollowSymLinks

@@ -7,8 +7,7 @@ $page = new Page('login.tpl');
 
 if ($isSubmit) {
 
-	var_dump("Check Yubikey Login stuff via API");
-	$success = true;
+	$api->checkYubikey($yubikey);
 	//$success = $api->checkLogin($login, $pass);
 
 	if ($success) {
