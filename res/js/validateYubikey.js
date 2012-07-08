@@ -8,7 +8,7 @@ function validateYubikey() {
 		return false;
 	}
 	
-	if (yubikey.value.length < 44) {
+	if (yubikey.value.length != 44) {
 		yubikey.value = "";
 		document.getElementById('control').className = "control-group error";
 		yubikey.placeholder = "Invalid OTP...";
