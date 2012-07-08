@@ -21,7 +21,8 @@ function parseRequestURI() {
 
 		//Nothing requested - use Index by default
 		if (empty($getParams[0])) {
-			return array('message' => 'error', 'error' => 'Invalid API Request - Empty Request');
+			return array('message' => 'error',
+					'error' => 'Invalid API Request - Empty Request');
 		}
 
 		$methodName = urldecode($getParams[0]);
@@ -34,7 +35,8 @@ function parseRequestURI() {
 			}
 		}
 	} else {
-		return array('message' => 'error', 'error' => 'Redirect status '.$_SERVER['REDIRECT_STATUS']);
+		return array('message' => 'error',
+				'error' => 'Redirect status '.$_SERVER['REDIRECT_STATUS']);
 	}
 	return array(
 		'method' => $page,
@@ -56,7 +58,8 @@ if ($requestDetails['error']) {
 if (file_exists($requestDetails['method'])) {
         include($requestDetails['method']);
 } else {
-	apiOut(array('message' => 'error', 'error' => 'Invalid API Request - No such Method'));
+	apiOut(array('message' => 'error',
+			'error' => 'Invalid API Request - No such Method'));
 }
 
 
