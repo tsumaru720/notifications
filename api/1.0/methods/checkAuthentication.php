@@ -1,3 +1,3 @@
 <?php
-apiInfo(array('info' => $_POST['type']));
+apiInfo(array('info' => '<pre>'.print_r($_POST, true).'</pre>'));
 ?> 
