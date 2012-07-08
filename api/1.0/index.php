@@ -50,10 +50,13 @@ $requestDetails = parseRequestURI();
 
 require_once('config.php');
 require_once('util/apiOut.php');
+require_once('util/mysql.php');
 
 if ($requestDetails['error']) {
 	apiOut($requestDetails);
 }
+
+$mysql = new MySQL($CONFIG['SQL_HOSTNAME'], $CONFIG['SQL_PORT'], $CONFIG['SQL_USERNAME'], $CONFIG['SQL_PASSWORD'], $CONFIG['SQL_DATABASE']);
 
 if (file_exists($requestDetails['method'])) {
         include($requestDetails['method']);

@@ -65,7 +65,7 @@ class API {
 			} elseif ($result == null) {
 				 return array('type' => 'error',
 					'tagline' => 'API Error',
-					'error' => 'API returned no usable output');
+					'error' => 'API returned no usable output - Please try again later');
 			} else {
 				return true;
 			}

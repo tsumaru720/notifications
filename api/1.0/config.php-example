@@ -3,4 +3,9 @@
 $CONFIG['YUBICO_ID'] = '1234';
 $CONFIG['YUBICO_KEY'] = 'aaaaabbb333345533=';
 
+$CONFIG['SQL_USERNAME'] = 'username';
+$CONFIG['SQL_PASSWORD'] = 'Pa55W0rD';
+$CONFIG['SQL_DATABASE'] = 'notifications';
+$CONFIG['SQL_HOSTNAME'] = 'localhost';
+$CONFIG['SQL_PORT'] = 3306;
 ?> 

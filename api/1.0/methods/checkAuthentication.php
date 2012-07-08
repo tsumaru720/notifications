@@ -5,6 +5,9 @@ if ($_POST['type'] == 'yubikey') {
 	return authenticateYubikey($_POST['token']);
 } elseif ($_POST['type'] == 'credentials') {
 	return authenticateCredentials($_POST['username'], $_POST['passwordHash']);
+} else {
+	return apiOut(array('message' => 'error',
+			'error' => 'No data provided to API'));
 }
 
 
@@ -53,4 +56,4 @@ function authenticateCredentials($username, $passwordHash) {
 }
 
 
-?> 
+?>
