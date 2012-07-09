@@ -1,5 +1,6 @@
 <?php
 
+if ($_POST['session']) { session_id($_POST['session']); } 
 session_start();
 
 function fixRequestURI() {
@@ -21,8 +22,7 @@ function parseRequestURI() {
 
 		//Nothing requested - use Index by default
 		if (empty($getParams[0])) {
-			return array('message' => 'error',
-					'error' => 'Invalid API Request - Empty Request');
+			return array('error' => 'INVALID_REQUEST_EMPTY_REQUEST');
 		}
 
 		$methodName = urldecode($getParams[0]);
@@ -35,8 +35,7 @@ function parseRequestURI() {
 			}
 		}
 	} else {
-		return array('message' => 'error',
-				'error' => 'Redirect status '.$_SERVER['REDIRECT_STATUS']);
+		return array('ERROR' => 'REDIRECT_STATUS_'.$_SERVER['REDIRECT_STATUS']);
 	}
 	return array(
 		'method' => $page,
@@ -56,13 +55,17 @@ if ($requestDetails['error']) {
 	apiOut($requestDetails);
 }
 
+
+
+/*var_dump($_SESSION);
+die();*/
+
 $mysql = new MySQL($CONFIG['SQL_HOSTNAME'], $CONFIG['SQL_PORT'], $CONFIG['SQL_USERNAME'], $CONFIG['SQL_PASSWORD'], $CONFIG['SQL_DATABASE']);
 
 if (file_exists($requestDetails['method'])) {
         include($requestDetails['method']);
 } else {
-	apiOut(array('message' => 'error',
-			'error' => 'Invalid API Request - No such Method'));
+	apiOut(array('error' => 'INVALID_REQUEST_NO_SUCH_METHOD'));
 }
 
 

@@ -11,21 +11,21 @@ class API {
 
 	
 	public function checkYubikey($token) {
-		$submitURL = $this->url.'checkAuthentication';
+		$submitURL = $this->url.'checkAuthentication/yubikey';
 		$args = array(
-			'type' => 'yubikey',
-			'token' => $token
+			'token' => $token,
+			'computer_id' => $_COOKIE['computer_id']
 		);
 
 		return $this->sendRequest($submitURL, $args);
 	}
 	
 	public function checkCredentials($username, $password) {
-		$submitURL = $this->url.'checkAuthentication';
+		$submitURL = $this->url.'checkAuthentication/credentials';
 		$args = array(
-			'type' => 'credentials',
 			'username' => $username, 
-			'passwordHash' => sha1($username.$password)
+			'passwordHash' => sha1($username.$password),
+			'computer_id' => $_COOKIE['computer_id']
 		);
 
 		return $this->sendRequest($submitURL, $args);
@@ -40,6 +40,14 @@ class API {
 			$postString .= $key.'='.urlencode($value).'&';
 		}
 		$postString = substr($postString, 0, -1);
+
+		if (!empty($_SESSION['api_session'])) { $postString .= '&session='.$_SESSION['api_session']; }
+
+		/*
+		var_dump($postString);
+		var_dump($_SESSION);
+		die();*/
+
 
 		curl_setopt($curlRes, CURLOPT_HEADER, false);		
 		curl_setopt($curlRes, CURLOPT_RETURNTRANSFER, true);
@@ -56,8 +64,13 @@ class API {
 		} else {
 			$result = json_decode($result, true);
 
-			if ($result['message']) {
-				$return['type'] = $result['message'];
+			if ($result['session']) {
+				$_SESSION['api_session'] = $result['session'];
+				//Remove session id from results as we only need it here
+				unset($result['session']);
+			}
+			if ($result['error']) {
+				$return['type'] = 'error';
 				foreach ($result as $key => $value) {
 					$return[$key] = $value;
 				}
@@ -65,7 +78,7 @@ class API {
 			} elseif ($result == null) {
 				 return array('type' => 'error',
 					'tagline' => 'API Error',
-					'error' => 'API returned no usable output - Please try again later');
+					'error' => 'API_ERROR');
 			} else {
 				return true;
 			}
