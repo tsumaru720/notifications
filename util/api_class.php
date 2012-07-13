@@ -57,7 +57,7 @@ class API {
 
 		//Append some variables to the end of the API request.
 		if (!empty($_SESSION['api_session'])) { $postString .= '&session='.$_SESSION['api_session']; }
-		$postString .= '&device_id='.$_COOKIE['device_id'];
+		$postString .= '&device_id='.urlencode($_COOKIE['device_id']);
 		$postString .= '&client_ip='.$_SERVER['REMOTE_ADDR'];
 
 		curl_setopt($curlRes, CURLOPT_HEADER, false);		

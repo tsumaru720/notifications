@@ -65,9 +65,9 @@ if (!$_POST['client_ip']) {
 
 if ($_SESSION['authenticated']) {
 
-	if ($_SESSION['ipAddr'] != $_POST['client_ip']) {
+	/*if ($_SESSION['ipAddr'] != $_POST['client_ip']) {
 		apiOut(array('info' => 'DEAUTHENTICATED_SESSION_HIJACKED'));
-	}
+	}*/
 
 	if ($_SESSION['device_id']) {
 		update_activity($_SESSION['ipAddr'], $_SESSION['user_id'], $_SESSION['device_id'], $_SESSION['auth_id']);
