@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="res/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-	<link href="res/css/login.css" rel="stylesheet" type="text/css">
+	<link href="res/css/box.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -25,7 +25,7 @@
 
 							<?php if (isset($messageType)) { $message->display(); } ?>
 							<div class="centered">
-								<div id="control" class="control-group<?php if ($tokenError) { echo ' error'; }?>">
+								<div id="control" class="control-group">
 									<div class="input-prepend">
 										<span class="add-on"><img src="res/images/yubico-icon-small.gif"></span><input class="span4" autocomplete="off" autofocus="autofocus" name="yubikey" type="password" placeholder="YubiKey...">
 									</div>
@@ -41,6 +41,11 @@
 					<div>
 				</div>
 			</div>
+		</div>
+		<div class="centered">
+			<i class="icon-eye-open"></i> <a href="privacy">Privacy Policy</a>
+			<i class="icon-info-sign"></i> <a href="terms">Terms and Conditions</a>
+			<i class="icon-question-sign"></i> <a href="about">About</a>
 		</div>
 	</div>
 

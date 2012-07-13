@@ -42,5 +42,9 @@ class MySQL {
 		return $qh->fetch();
 	}
 
+	public function getInsertID() {
+		return $this->handle->lastInsertId();
+	}
+
 }
 ?>

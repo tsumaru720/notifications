@@ -1,7 +1,7 @@
 
 body {
 	margin-top: 150px;
-	background-color: #f6f6f6;
+	background-color: #fafafa;
 }
 
 .box {
@@ -64,18 +64,18 @@ body {
 	margin-top: -2px;
 }
 
-#logon .centered {
+.centered {
 	text-align: center;
 }
 
 #yubikey {
 	float: left;
-	margin: 10px 0px 10px 20px;
+	margin: 5px 5px 5px 20px;
 }
 
 #no_yubikey {
 	float: right;
-	margin: 5px 0px 5px 20px;
+	margin: 5px 5px 5px 20px;
 }
 
 #logon #control, #logon #username-control, #logon #password-control {

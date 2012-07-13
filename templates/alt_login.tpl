@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="res/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-	<link href="res/css/login.css" rel="stylesheet" type="text/css">
+	<link href="res/css/box.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -26,10 +26,10 @@
 
 							<?php if (isset($messageType)) { $message->display(); } ?>
 							<div class="centered">
-								<div id="username-control" class="control-group<?php if ($usernameError) { echo ' error'; }?>">
+								<div id="username-control" class="control-group">
 									<input class="input-xlarge focused" autofocus="autofocus" name="username" type="text" placeholder="Username...">
 								</div>
-								<div id="password-control" class="control-group<?php if ($passwordError) { echo ' error'; }?>">
+								<div id="password-control" class="control-group">
 									<input class="input-xlarge" autocomplete="off" name="password" type="password" placeholder="Password...">
 								</div>
 								<p>&nbsp;</p>
@@ -44,6 +44,11 @@
 					<div>
 				</div>
 			</div>
+		</div>
+		<div class="centered">
+			<i class="icon-eye-open"></i> <a href="privacy">Privacy Policy</a>
+			<i class="icon-info-sign"></i> <a href="terms">Terms and Conditions</a>
+			<i class="icon-question-sign"></i> <a href="about">About</a>
 		</div>
 	</div>
 

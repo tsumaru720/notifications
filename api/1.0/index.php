@@ -1,7 +1,9 @@
 <?php
 
-if ($_POST['session']) { session_id($_POST['session']); } 
-session_start();
+if ($_POST['session']) { 
+	session_id($_POST['session']);
+	session_start();
+}
 
 function fixRequestURI() {
 	$len = strlen(substr($_SERVER['SCRIPT_NAME'],0,strrpos($_SERVER['SCRIPT_NAME'], "/")));
@@ -22,7 +24,7 @@ function parseRequestURI() {
 
 		//Nothing requested - use Index by default
 		if (empty($getParams[0])) {
-			return array('error' => 'INVALID_REQUEST_EMPTY_REQUEST');
+			return array('info' => 'INVALID_REQUEST_EMPTY_REQUEST');
 		}
 
 		$methodName = urldecode($getParams[0]);
@@ -35,7 +37,7 @@ function parseRequestURI() {
 			}
 		}
 	} else {
-		return array('ERROR' => 'REDIRECT_STATUS_'.$_SERVER['REDIRECT_STATUS']);
+		return array('info' => 'REDIRECT_STATUS_'.$_SERVER['REDIRECT_STATUS']);
 	}
 	return array(
 		'method' => $page,
@@ -50,22 +52,36 @@ $requestDetails = parseRequestURI();
 require_once('config.php');
 require_once('util/apiOut.php');
 require_once('util/mysql.php');
+require_once('util/update_activity.php');
 
 if ($requestDetails['error']) {
 	apiOut($requestDetails);
 }
 
 
+if (!$_POST['client_ip']) {
+	apiOut(array('info' => 'CONFIRM_CLIENT_IP'));
+}
 
-/*var_dump($_SESSION);
-die();*/
+if ($_SESSION['authenticated']) {
+
+	if ($_SESSION['ipAddr'] != $_POST['client_ip']) {
+		apiOut(array('info' => 'DEAUTHENTICATED_SESSION_HIJACKED'));
+	}
+
+	if ($_SESSION['device_id']) {
+		update_activity($_SESSION['ipAddr'], $_SESSION['user_id'], $_SESSION['device_id'], $_SESSION['auth_id']);
+	} else {
+		update_activity($_SESSION['ipAddr'], $_SESSION['user_id']);
+	}
+}
 
 $mysql = new MySQL($CONFIG['SQL_HOSTNAME'], $CONFIG['SQL_PORT'], $CONFIG['SQL_USERNAME'], $CONFIG['SQL_PASSWORD'], $CONFIG['SQL_DATABASE']);
 
 if (file_exists($requestDetails['method'])) {
         include($requestDetails['method']);
 } else {
-	apiOut(array('error' => 'INVALID_REQUEST_NO_SUCH_METHOD'));
+	apiOut(array('info' => 'INVALID_REQUEST_NO_SUCH_METHOD'));
 }
 
 

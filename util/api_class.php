@@ -12,9 +12,9 @@ class API {
 	
 	public function checkYubikey($token) {
 		$submitURL = $this->url.'checkAuthentication/yubikey';
+
 		$args = array(
-			'token' => $token,
-			'computer_id' => $_COOKIE['computer_id']
+			'token' => $token
 		);
 
 		return $this->sendRequest($submitURL, $args);
@@ -22,10 +22,21 @@ class API {
 	
 	public function checkCredentials($username, $password) {
 		$submitURL = $this->url.'checkAuthentication/credentials';
+
+		$username = strtolower($username);
+
 		$args = array(
 			'username' => $username, 
-			'passwordHash' => sha1($username.$password),
-			'computer_id' => $_COOKIE['computer_id']
+			'passwordHash' => sha1($username.$password)
+		);
+
+		return $this->sendRequest($submitURL, $args);
+	}
+
+	public function validateComputer($code) {
+		$submitURL = $this->url.'checkAuthentication/validate';
+		$args = array(
+			'code' => $code
 		);
 
 		return $this->sendRequest($submitURL, $args);
@@ -41,13 +52,13 @@ class API {
 		}
 		$postString = substr($postString, 0, -1);
 
+//2e347d84a55997137286361e5964485deddf6545
+//$_COOKIE['device_id'] = '';
+
+		//Append some variables to the end of the API request.
 		if (!empty($_SESSION['api_session'])) { $postString .= '&session='.$_SESSION['api_session']; }
-
-		/*
-		var_dump($postString);
-		var_dump($_SESSION);
-		die();*/
-
+		$postString .= '&device_id='.$_COOKIE['device_id'];
+		$postString .= '&client_ip='.$_SERVER['REMOTE_ADDR'];
 
 		curl_setopt($curlRes, CURLOPT_HEADER, false);		
 		curl_setopt($curlRes, CURLOPT_RETURNTRANSFER, true);
@@ -69,18 +80,18 @@ class API {
 				//Remove session id from results as we only need it here
 				unset($result['session']);
 			}
-			if ($result['error']) {
-				$return['type'] = 'error';
+			if ($result['info']) {
+				$return['type'] = 'info';
 				foreach ($result as $key => $value) {
 					$return[$key] = $value;
 				}
 				return $return;
 			} elseif ($result == null) {
-				 return array('type' => 'error',
+				 return array('type' => 'info',
 					'tagline' => 'API Error',
-					'error' => 'API_ERROR');
+					'info' => 'API_ERROR');
 			} else {
-				return true;
+				return $result;
 			}
 		}
 	}

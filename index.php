@@ -29,7 +29,12 @@ function parseRequestURI() {
 		if ($_SESSION['authenticated'] != true
 				&& $getParams[0] != 'login'
 				&& $getParams[0] != 'alt_login'
-				&& $getParams[0] != 'register') {
+				&& $getParams[0] != 'register'
+				&& $getParams[0] != 'validate'
+				&& $getParams[0] != 'privacy'
+				&& $getParams[0] != 'terms'
+				&& $getParams[0] != 'about') {
+			//Set default page to logon if none of above.
 			$getParams[0] = 'login';
 		}
 		

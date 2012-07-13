@@ -8,4 +8,17 @@ $CONFIG['SQL_PASSWORD'] = 'Pa55W0rD';
 $CONFIG['SQL_DATABASE'] = 'notifications';
 $CONFIG['SQL_HOSTNAME'] = 'localhost';
 $CONFIG['SQL_PORT'] = 3306;
+
+
+
+/* This string is hashed along with the Unique ID that is generated
+for a previously uknown device.
+
+Should the database of ID Hashes be compromised, changing this
+value will cause matching _ALL_ ID hashes to fail and new
+ones to be generated, thus preventing a third party "Pretending"
+to be an authorized device for a given account. */
+
+$CONFIG['DEVICE_HASH_SALT'] = '6?dCC4L@?Aus6Dqt]tbB9EZpE3r;ZJ';
+
 ?> 

@@ -1,7 +1,11 @@
 <?php	
 
+if ($_SESSION['authenticated']) {
+	echo 'ALREADY AUTHENTICATED';
+}
+
 $isSubmit = !empty($_POST);
-$yubikey = isset($_POST['yubikey']) ? $_REQUEST['yubikey'] : '';
+$yubikey = isset($_POST['yubikey']) ? $_POST['yubikey'] : '';
 
 $factory = new PageFactory();
 
@@ -9,43 +13,39 @@ if ($isSubmit) {
 
 	$result = $api->checkYubikey($yubikey);
 
-	if ($result === true) {
-		//header('Location: /loggedin.php');
+
+	if (!$result['info']) {
+		$_SESSION['authenticated'] = true;
+		echo 'OK!';
 		die();
 	} else {
+		if ($result['info'] == 'DEVICE_ID_GENERATED' || $result['info'] == 'VALIDATION_ALREADY_SENT') {
 
-		if ($result['error'] == 'VALIDATION_SENT' || $result['error'] == 'VALIDATION_ALREADY_SENT') {
-			$result['type'] = 'info';
-			$result['tagline'] = 'Validation email sent';
-			$result['info'] = "You have successfully authenticated, however it appears this PC is not authorized to access your account.<br><br>A validation email has been sent to you with further instructions.";
+			createMessage($factory, 'info', 'Validation email sent', 'You have successfully authenticated, however it appears this PC is not authorized to access your account.<br><br>A validation email has been sent to you with further instructions.');
 
-			if (!empty($_COOKIE['computer_id'])) {
-				setcookie('computer_id', '', time() - 3600);
+			if (!empty($_COOKIE['device_id'])) {
+				setcookie('device_id', '', time() - 3600);
 			}
-			setcookie('computer_id', $result['id'], time()+60*60*24*30);
+			setcookie('device_id', $result['device_id'], time()+60*60*24*30);
+		} else {
+			createMessage($factory, $result['type'], $result['tagline'], $result[$result['type']]);
 		}
-
-
-		// Display Errors
-		$factory->setVar('messageType', $result['type']);
-		$factory->setVar('messageTopic', (!empty($result['tagline']) ? $result['tagline'] : ''));
-		$factory->setVar('messageText', $result[$result['type']]);
-
-		$message = $factory->newPage('message.tpl');
-
-		$factory->setVar('message', $message);
-		//End
-
-
 	}
 }
 
 $page = $factory->newPage('login.tpl');
 
-if ($result['field'] == 'token') {
-	$page->setVar('tokenError', true);
-}
-
 $page->display();
+
+
+function createMessage($factory, $type, $tagline, $text) {
+	$factory->setVar('messageType', $type);
+	$factory->setVar('messageTopic', $tagline);
+	$factory->setVar('messageText', $text);
+
+	$message = $factory->newPage('message.tpl');
+
+	$factory->setVar('message', $message);
+}
 
 ?>
