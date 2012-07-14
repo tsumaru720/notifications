@@ -18,7 +18,7 @@
 					</div>
 					<div class="body">
 						<div class="upper-form">
-							<form id="logon" method="post" onsubmit="return validateCredentials()" class="form-horizontal">
+							<form id="logon" method="post" onsubmit="return validateCredentials()">
 							<p>If you don't have a YubiKey, you can still log into this site conventioanlly with a username and password.</p>
 							<p><strong>Note</strong> If you log in via this method, you will need to validate the computer you are using via your email address before you can proceed.</p>
 							<p>We will send you a validation email with instructions once you have signed in successfully.</p>
@@ -26,22 +26,26 @@
 
 							<?php if (isset($message)) { $message->display(); } ?>
 
+							<div class="centered">
 
-							<div id="username-control" class="control-group">
-								<label class="control-label" for="username">Username</label>
-								<div class="controls">
-									<input class="input-xlarge focused" autofocus="autofocus" id="username" name="username" type="text" placeholder="Username...">
+								<div id="username-control" class="control-group">
+									<div class="controls">
+										<div class="input-prepend">
+											<span class="add-on">Username</span><input class="input-xlarge focused" autofocus="autofocus" id="username" name="username" type="text" placeholder="Username...">
+										</div>
+									</div>
 								</div>
-							</div>
 
-							<div id="password-control" class="control-group">
-								<label class="control-label">Password</label>
-								<div class="controls">
-									<input class="input-xlarge" autocomplete="off" name="password" id="password" type="password" placeholder="Password...">
+								<div id="password-control" class="control-group">
+									<div class="controls">
+										<div class="input-prepend">
+											<span class="add-on">Password</span><input class="input-xlarge" autocomplete="off" name="password" id="password" type="password" placeholder="Password...">
+										</div>
+									</div>
 								</div>
-							</div>
-							<p>&nbsp;</p>
+								<p>&nbsp;</p>
 
+							</div>
 
 						</div>
 						<div class="form-actions">
@@ -61,7 +65,7 @@
 		</div>
 	</div>
 
-<script src="res/js/validateCredential.js"></script>
+<script src="res/js/validateCredentials.js"></script>
 <script src="res/bootstrap/js/jquery.js"></script>
 <script src="res/bootstrap/js/bootstrap.js"></script>
 
