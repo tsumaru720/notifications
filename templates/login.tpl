@@ -23,7 +23,7 @@
 							<p>Please use your key below to log in to your account. If you do not have an account, use it anyway to begin the registration process.</p>
 							<p>&nbsp;</p>
 
-							<?php if (isset($messageType)) { $message->display(); } ?>
+							<?php if (isset($message)) { $message->display(); } ?>
 							<div class="centered">
 								<div id="control" class="control-group">
 									<div class="input-prepend">

@@ -18,12 +18,11 @@
 					</div>
 					<div class="body">
 						<div class="upper-form">
-							<?php if (isset($messageType)) { $message->display(); } ?>
-<div id="yubikey"><i class="icon-arrow-left"></i> <a href=".">Sign in with YubiKey</a></div>
-<div id="no_yubikey"><a href="alt_login">Don't have a YubiKey?</a> <i class="icon-arrow-right"></i></div>
-							<div class="centered">
-								&nbsp;
-							</div>
+							<?php if (isset($message)) { $message->display(); } ?>
+						</div>
+						<div class="form-actions">
+							<div id="yubikey"><i class="icon-arrow-left"></i> <a href=".">Sign in with YubiKey</a></div>
+							<div id="no_yubikey"><a href="alt_login">Don't have a YubiKey?</a> <i class="icon-arrow-right"></i></div>
 						</div>
 					<div>
 				</div>
